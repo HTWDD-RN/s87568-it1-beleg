@@ -9,6 +9,7 @@ Der Beleg dient der praktischen Anwendung der Kenntnisse zu HTML, CSS, Javascrip
 - Einsatz von HTML zur Strukturierung
 - Einsatz von CSS zur Formatierung 
 - Webprogrammierung mittels Javascript (ECMAScript)
+- Nutzung des DOMs (Document Object Model)
 - Wahl einer geeigneten Softwarearchitektur 
 - Nutzung einer JS-Bibliothek zur Darstellung von speziellen Inhalten
 - Entwurf und Implementierung eines sinnvollen Nutzerinterfaces
