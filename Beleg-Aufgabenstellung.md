@@ -97,7 +97,7 @@ folgende Kategorien sind anzubieten, ja nach gewünschter [Note](#bewertungshinw
 ## Weitere Anforderungen
 - falls Sie ChatGPT u.ä. nutzen, müssen Sie dies dokumentieren und den erstellten Code erklären können
 - Dokumentation des Projektes, so dass eine andere Person ggf. am Projekt weiterarbeiten könnte
-- Legen Sie eine Datei README.md an mit relevanten Informationen zum Beleg: z.B. genutzter Browser, eventuelle Probleme
+- Legen Sie eine Datei README.md an mit relevanten Informationen zum Beleg: erfüllte Aufgaben, eventuelle Probleme, genutzter Browser, ...
 - es wird empfohlen, ein Lernportfolio zu erstellen (Dokumentation Ihrer Entwicklungsschritte, des Lernfortschritts, der Misserfolge, etc.)
 - machen Sie Vorschläge zur Erweiterung/Verbesserung des Belegs
 
