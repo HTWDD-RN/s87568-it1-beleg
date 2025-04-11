@@ -1,53 +1,111 @@
 
 
+:root {
+    --emerald-950: #022c22;
+    --emerald-800: #065f46;
+    --emerald-700: #065f46;
+    --emerald-500: #047857;
+    --emerald-300: #10b981;
+    --emerald-400: #34d399;
+    --emerald-50: #ecfdf5;
+    --gray: gray;
+}
 
-nav,  header, footer, article, aside, span {
+body {
+    background-color: var(--emerald-950);
+    color: black;
+}
 
+
+
+/* main containers and nigh-global rules */
+nav,  header, footer, article, aside, li, button {
+    background-color: var(--emerald-500);
     border-radius: 10px;
-    border: 1px solid black;
+    border: 1px solid var(--gray);
     padding: 0.1em 0.4em;
     margin: 0.5em;
 
 }
 
 header, footer {
-    background-color: rgb(81, 103, 211);
+    background-color: var(--emerald-800);
     min-height: 2em;
 }
 
-
 main {
+    background-color: var(--emerald-700);
     display:flex;
-    background-color: beige;
     padding: 0 1em;
     border-radius: 15px;
+    margin: 0.5em;
 }
-
-
 
 nav {
     flex: 1 1 8em;
-    max-width: 5em;
-    
+    max-width: 8em;
 }
-/* first line of every container bold */
-body > *::first-line, main > *::first-line {
- font-weight: bold;
-}
-nav ul {
-    list-style: none;
-}
-nav ul a {
-    text-decoration: none;
-}
-
 article {
     flex: 3 3 0%;
     min-width: 50%;
 }
+
 aside {
     flex: 1 1 0%;
 }
+
+
+
+
+/* id-specific rules */
+#nav-title {
+    font-size: small;
+    margin: 0.2rem 0;
+}
+
+
+#category-ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0%;
+    margin: 0.2em 0;
+
+}
+
+#category-ul li {
+    font-size: small;
+    margin-top: 0.6em;
+
+}
+
+#category-ul li > span {
+    font-size: small;
+
+}
+
+
+
+
+
+/* Usefull classes */
+
+.clickable, button {
+    cursor: pointer;
+    background-color: var(--emerald-400);
+    user-select: none;
+}
+
+.clickable:hover, button:hover {
+    cursor: pointer;
+    background-color: gray;
+    /* user-select: none; */
+}
+
+
+
+
 
 @media screen and (max-width: 40em) {
     
@@ -63,17 +121,5 @@ aside {
         min-width: 6em;
         max-width: 100%;
     }
-}
-
-
-/* id-specific rules */
-#nav-title {
-    font-size: medium;
-}
-
-
-/* Usefull classes */
-.clickable {
-    cursor: pointer;
 }
 

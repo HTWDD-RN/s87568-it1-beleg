@@ -22,9 +22,21 @@
 + Nutze nav-bar für das Aussuchen der Lernkategorie
 + verteile class="clickable", um dann in css cursor: pointer; zu setzten
     + sprich sinvoller einen Stilklassennamen zu finden für eine UI-Eigenschaft, als diese für jedes zutreffende Element einzeln im css zu setzen
-+ sich Gedanken machen über passende container
++ sich Gedanken machen über passende containerh
 + man kann erstmal alles in div's modellieren und entsprechende id's verteilen und dann nach sinvollen existierenden HTML tags suchen um diese zu einzusetzen
 
 > 3h bis hier
 
 ## CSS - Erst-styling, root-variablen, Layout
++ ul in nav eher als display flex, um die li besser zu verwalten (Layout)
++ viel herumgespielt mit margins
++ prozentuale Zuweisung von height und width führt in manchen Fällen zum herausragen aus dem umgebenden Container
++ immer relative maße wie em, vh benutzen
++ schöne Farbkombinationen nutzen via Farbpalette aus Tailwindcss
++ user-select: none; , um text eines Elements nicht interagierbar zu machen
++ klares Layout, Farbpalette geschaffen, sinvolle Klassen und id's eingeführt
++ Styling kann sehr kleinteilig werden. Man darf sich nicht im Tunnelblick verlieren => erstmal weitermachen mit Funktionalität und dann evtl. weiter stylen
+
+> 4.5h bis hier
+
+## erste Funktionalitäten mit js, Model-View-Presenter Architektur nutzen
