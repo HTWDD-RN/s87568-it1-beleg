@@ -1,0 +1,79 @@
+
+
+
+nav,  header, footer, article, aside, span {
+
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 0.1em 0.4em;
+    margin: 0.5em;
+
+}
+
+header, footer {
+    background-color: rgb(81, 103, 211);
+    min-height: 2em;
+}
+
+
+main {
+    display:flex;
+    background-color: beige;
+    padding: 0 1em;
+    border-radius: 15px;
+}
+
+
+
+nav {
+    flex: 1 1 8em;
+    max-width: 5em;
+    
+}
+/* first line of every container bold */
+body > *::first-line, main > *::first-line {
+ font-weight: bold;
+}
+nav ul {
+    list-style: none;
+}
+nav ul a {
+    text-decoration: none;
+}
+
+article {
+    flex: 3 3 0%;
+    min-width: 50%;
+}
+aside {
+    flex: 1 1 0%;
+}
+
+@media screen and (max-width: 40em) {
+    
+    main {
+        flex-direction: column;
+    }
+    nav ul{
+        display: flex;
+        justify-content: space-evenly;
+        
+    }
+    nav, aside {
+        min-width: 6em;
+        max-width: 100%;
+    }
+}
+
+
+/* id-specific rules */
+#nav-title {
+    font-size: medium;
+}
+
+
+/* Usefull classes */
+.clickable {
+    cursor: pointer;
+}
+
