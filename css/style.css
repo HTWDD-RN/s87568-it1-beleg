@@ -14,6 +14,7 @@
 body {
     background-color: var(--emerald-950);
     color: black;
+    font-size: 2vw
 }
 
 
@@ -59,7 +60,6 @@ aside {
 
 /* id-specific rules */
 #nav-title {
-    font-size: small;
     margin: 0.2rem 0;
 }
 
@@ -75,13 +75,8 @@ aside {
 }
 
 #category-ul li {
-    font-size: small;
+
     margin-top: 0.6em;
-
-}
-
-#category-ul li > span {
-    font-size: small;
 
 }
 
@@ -90,6 +85,11 @@ aside {
 
 
 /* Usefull classes */
+
+    /* fix font size and li size, FIXME: not pretty*/
+.clickable > span, button, li {
+    font-size: 1.5vw;
+}
 
 .clickable, button {
     cursor: pointer;
@@ -108,6 +108,10 @@ aside {
 
 
 @media screen and (max-width: 40em) {
+
+    body {
+        font-size: large;
+    }
     
     main {
         flex-direction: column;
@@ -120,6 +124,10 @@ aside {
     nav, aside {
         min-width: 6em;
         max-width: 100%;
+    }
+
+    .clickable > span, button, li {
+        font-size: medium;
     }
 }
 

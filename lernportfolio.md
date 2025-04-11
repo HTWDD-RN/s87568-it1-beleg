@@ -36,7 +36,15 @@
 + user-select: none; , um text eines Elements nicht interagierbar zu machen
 + klares Layout, Farbpalette geschaffen, sinvolle Klassen und id's eingeführt
 + Styling kann sehr kleinteilig werden. Man darf sich nicht im Tunnelblick verlieren => erstmal weitermachen mit Funktionalität und dann evtl. weiter stylen
++ Schriftgröße abhängig machen von Fensterbreite ist super
 
 > 4.5h bis hier
 
 ## erste Funktionalitäten mit js, Model-View-Presenter Architektur nutzen
++ aufteilen in mehrere Module
++ mehr input zu js durch die VL gewinnen
+
+> 7h bis hier
+
++ es erscheint sinnvoll zu Modellieren, welche Methoden gebraucht werden, bevor sich an eine Implementierung der erstbesten gewagt wird:
+    - Model: 
