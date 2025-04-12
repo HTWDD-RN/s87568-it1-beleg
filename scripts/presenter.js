@@ -30,8 +30,8 @@ class Presenter {
         document.getElementById(`category-${category}`).classList.add("active-category");
 
         let tasks = this.m.getTasksForCategory(category);
-        console.log(tasks);
         // TODO: choose random task not just first
+        this.shuffleArray(tasks);
 
         let firstTask = tasks[0];
         
