@@ -34,6 +34,13 @@ class Presenter {
 
         this.activeCategory = category;
 
+        const keyboard = document.getElementById("keyboard");
+        keyboard.style.display = "none";
+        console.log(category);
+        if (category === "noten") {
+            keyboard.style.display = "block";
+        }
+
         let tasks = this.m.getTasksForCategory(category);
         // TODO: choose random task not just first
         this.shuffleArray(tasks);

@@ -88,8 +88,13 @@ aside {
 
 #button-wrapper {
     display: flex;
-    flex-direction: column;
-    
+    flex-direction: column;   
+}
+
+#keyboard-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -99,7 +104,7 @@ aside {
 /* Usefull classes */
 
     /* fix font size and li size, FIXME: not pretty*/
-.clickable > span, button, li {
+.clickable > span, button, li.clickable {
     font-size: 1.5vw;
 }
 
@@ -119,6 +124,10 @@ aside {
     background-color: gray;
 }
 
+
+.hidden {
+    display: none;
+}
 
 
 
@@ -142,7 +151,7 @@ aside {
         max-width: 100%;
     }
 
-    .clickable > span, button, li {
+    .clickable > span, button, li.clickable {
         font-size: medium;
     }
 }

@@ -60,4 +60,6 @@
 + besser ist es die Variablen zu initialisieren, sonst kommt manchmal ein undefined dazu
 + wenn ein Eventlistener eine Funktion aufruft, weil diese als Parameter mitgegeben wurde,dann ist der this-Kontext dieser FUnktion das event!
 + nutze den Fisher-Yates Algorithmus um die Ordung eines Arrays dem Zufall zu überlassen (https://medium.com/@khaledhassan45/how-to-shuffle-an-array-in-javascript-6ca30d53f772)
-+
++ button Funktionalitäten ergänzt
+
+> 11.5h bis hier

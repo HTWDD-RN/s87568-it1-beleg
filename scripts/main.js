@@ -22,9 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
         v.renderWelcome();
     })
 
-    //p.setTask();
-
-
 });
 
 

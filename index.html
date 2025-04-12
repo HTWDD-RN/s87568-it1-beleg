@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,7 @@
     <main>
         <nav>
             <h3 id="nav-title">Kategorie auswählen:</h3>
-            <ul aria-label="Lern Kategorie auswählen" id="category-ul">
+            <ul id="category-ul" aria-label="Lern Kategorie auswählen" >
                 <li class="clickable" onclick="loadCategory(1)"><span>Kategorie 1</span></li>
                 <li class="clickable" onclick="loadCategory(1)"><span>Kategorie 2</span></li>
                 <li class="clickable" onclick="loadCategory(1)"><span>Kategorie 3</span></li>
@@ -32,19 +32,40 @@
                 </div>
             </div>          
         </article>
-        <aside>
+        <aside>          
         </aside>
     </main>
+    <div id="keyboard-wrapper">
+      <div id="keyboard"></div>
+    </div>
+   
     <footer>
-      footer
+      
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.39/Tone.js"></script>
+    <script src="https://unpkg.com/qwerty-hancock"></script>
+    <script>
+      const keyboard = new QwertyHancock({
+        id: 'keyboard',
+        width: 600,
+        height: 150,
+        octaves: 2,
+        startNote: 'C4',
+        whiteKeyColour: 'white',
+        blackKeyColour: 'black',
+        activeColour: 'blue'
+      });
+      const synth = new Tone.Synth().toDestination();
+      keyboard.keyDown = function (note, frequency) {
+        console.log(note);
+        synth.triggerAttack(note);
+      };
+      keyboard.keyUp = function (note, frequency) {
+        console.log(note);
+        synth.triggerRelease();
+      };
+    </script>
   </body>
-  <script>
-    function loadCategory(categoryNumber) {
-        console.log(categoryNumber);
-    }
-
-  </script>
 </html>
 
 
