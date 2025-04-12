@@ -29,7 +29,14 @@ class View {
 
     renderCategoryTask(articleTaskHTML) {
         this.article.innerHTML = articleTaskHTML;
+
+        const answerButtons = document.querySelectorAll("#button-wrapper > button");
+        // bind button EventListeners
+        for (let answerButton of answerButtons) {
+            answerButton.addEventListener("click", this.p.checkAnswer.bind(this.p, answerButton));
+        }
     }
+
 
 }
 

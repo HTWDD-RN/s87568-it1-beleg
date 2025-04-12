@@ -86,6 +86,12 @@ aside {
     text-align: center;
 }
 
+#button-wrapper {
+    display: flex;
+    flex-direction: column;
+    
+}
+
 
 
 

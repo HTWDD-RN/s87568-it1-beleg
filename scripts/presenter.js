@@ -3,6 +3,7 @@
 class Presenter {
     constructor() {
         this.anr = 0;
+        this.activeCategory = null;
     }
 
     setModelAndView(m, v) {
@@ -12,11 +13,13 @@ class Presenter {
 
 
 
+
+
     getCategoryListHTML() {
         const categories = this.m.getCategories();
         let listHtml = ``;
         for (let category of categories) {
-            listHtml += ` <li class="clickable" id="category-${category}" ><span class="category">${category}</span></li>`;
+            listHtml += ` <li class="clickable" id="category-${category}"><span class="category">${category}</span></li>`;
         }
         return listHtml;
     }
@@ -28,6 +31,8 @@ class Presenter {
         }
         // add active category class to new active category
         document.getElementById(`category-${category}`).classList.add("active-category");
+
+        this.activeCategory = category;
 
         let tasks = this.m.getTasksForCategory(category);
         // TODO: choose random task not just first
@@ -62,6 +67,15 @@ class Presenter {
 
 
         this.v.renderCategoryTask(firstTaskHtml);
+    }
+
+
+    checkAnswer(answerButton) {
+        // extract the data-correct attribute for handling checkanswer(data-correct)
+        let dataCorrect = answerButton.dataset.correct;
+        this.v.renderCategoryTask(dataCorrect === "true");
+        console.log(dataCorrect === "true");
+
     }
 
 
