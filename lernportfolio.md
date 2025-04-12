@@ -48,3 +48,8 @@
 
 + es erscheint sinnvoll zu Modellieren, welche Methoden gebraucht werden, bevor sich an eine Implementierung der erstbesten gewagt wird:
     - Model: 
+        + JSON Datei mit statischen Fragen. Wie wird in  Javascript auf eine JSON Datei zugegriffen?
+        + JSON zusätzliche Kommata verboten
+
++ import in js sucht relativ von aufrufendem skript, während fetch relativ vom aufrufenden .html file sucht
++ ist es möglich aus JSON Datei nur einen Teil in RAM zu laden und nicht alles? => nein es wird immer die ganze Datei geladen
