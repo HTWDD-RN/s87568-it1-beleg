@@ -63,3 +63,5 @@
 + button Funktionalitäten ergänzt
 
 > 11.5h bis hier
++ midi virtual keyboard eingebaut. https://stuartmemo.com/qwerty-hancock/
++ latex sollte selbst in die Aufgaben geschrieben werden!!!!

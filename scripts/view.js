@@ -10,8 +10,7 @@ class View {
     renderWelcome() {
         "renders the landing page where the user first chooses which category to learn"
 
-        this.article.innerHTML = `<h3 id="welcome-heading">Choose a category to learn</h3>`;
-
+        this.article.innerHTML = `<h3 id="welcome-heading">Wähle eine Kategorie zum Lernen</h3>` + this.article.innerHTML;
         this.setCategoryList();
         
 
@@ -28,8 +27,24 @@ class View {
     }
 
     renderCategoryTask(articleTaskHTML) {
-        this.article.innerHTML = articleTaskHTML;
+        document.getElementById("question")?.remove();
+        document.getElementById("answers")?.remove();
+        this.article.innerHTML = articleTaskHTML + this.article.innerHTML;
 
+
+        // let katex parse latex code
+        renderMathInElement(document.body, {
+            // customised options
+            // • auto-render specific keys, e.g.:
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+            ],
+            // • rendering keys, e.g.:
+            throwOnError : false
+          });
+
+          
         const answerButtons = document.querySelectorAll("#button-wrapper > button");
         // bind button EventListeners
         for (let answerButton of answerButtons) {
