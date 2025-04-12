@@ -11,15 +11,19 @@ import View from "./view.js";
 
 //let p, v, m;
 document.addEventListener('DOMContentLoaded', function () {
-    // let m = new Model();
-    // let p = new Presenter();
-    // let v = new View(p);
-    // p.setModelAndView(m, v);
+    let m = new Model();
+    let p = new Presenter();
+    let v = new View(p);
+
+
+    // model loads some data async, so wait for it to finish loading
+    m.ready.then(() => {
+        p.setModelAndView(m, v);
+        v.renderWelcome();
+    })
+
     //p.setTask();
-    fetch("./json/tasks-static.json")
-        .then(response => response.json()) // Parse JSON
-        .then(data => console.log(data)) // Work with JSON data
-        .catch(error => console.error('Error fetching JSON:', error));
+
 
 });
 

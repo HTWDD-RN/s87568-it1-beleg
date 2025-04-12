@@ -14,7 +14,9 @@
 body {
     background-color: var(--emerald-950);
     color: black;
-    font-size: 2vw
+    font-size: 2vw;
+    user-select: none;
+
 }
 
 
@@ -80,6 +82,10 @@ aside {
 
 }
 
+#welcome-heading {
+    text-align: center;
+}
+
 
 
 
@@ -101,6 +107,10 @@ aside {
     cursor: pointer;
     background-color: gray;
     /* user-select: none; */
+}
+
+.active-category {
+    background-color: gray;
 }
 
 

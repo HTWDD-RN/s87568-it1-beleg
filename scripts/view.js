@@ -2,39 +2,35 @@
 class View {
     constructor(p) {
         this.p = p;  // Presenter
-        this.setHandler();
+        this.article = document.getElementById("q-and-a");
+        this.categoryUl = document.getElementById("category-ul");
     }
 
-    setHandler() {
-        // use capture false -> bubbling (von unten nach oben aufsteigend)
-        // this soll auf Objekt zeigen -> bind (this)
-        document.getElementById("answer").addEventListener("click", this.checkEvent.bind(this), false);
-        document.getElementById("start").addEventListener("click", this.start.bind(this), false);
+
+    renderWelcome() {
+        "renders the landing page where the user first chooses which category to learn"
+
+        this.article.innerHTML = `<h3 id="welcome-heading">Choose a category to learn</h3>`;
+
+        this.setCategoryList();
+        
+
     }
 
-    start() {
-        this.p.setTask();
-    }
+    setCategoryList() {
+        this.categoryUl.innerHTML = this.p.getCategoryListHTML();
+        const categorySpans = document.querySelectorAll(".category");
 
-    static inscribeButtons(i, text, pos) {
-        document.querySelectorAll("#answer > *")[i].textContent = text;
-        document.querySelectorAll("#answer > *")[i].setAttribute("number", pos);
-    }
-
-    checkEvent(event) {
-        console.log(event.type);
-        if (event.target.nodeName === "BUTTON") {
-            this.p.checkAnswer(Number(event.target.attributes.getNamedItem("number").value));
+        // bind the Event-Listeners
+        for (let category of categorySpans) {
+            category.parentElement.addEventListener("click", this.p.setCategory.bind(this.p, category.textContent));
         }
     }
 
-    static renderText(text) {
-        //this.clearElement("boo");
-        let div = document.getElementById("boo");
-        let p = document.createElement("p");
-        p.innerHTML = text;
-        div.appendChild(p);
+    renderCategoryTask(articleTaskHTML) {
+        this.article.innerHTML = articleTaskHTML;
     }
+
 }
 
 

@@ -53,3 +53,11 @@
 
 + import in js sucht relativ von aufrufendem skript, während fetch relativ vom aufrufenden .html file sucht
 + ist es möglich aus JSON Datei nur einen Teil in RAM zu laden und nicht alles? => nein es wird immer die ganze Datei geladen
+
+> 8h bis hier
+
++ Reihenfolge für innitialisierung der Klassen und laden der Html seite wichtig
++ besser ist es die Variablen zu initialisieren, sonst kommt manchmal ein undefined dazu
++ wenn ein Eventlistener eine Funktion aufruft, weil diese als Parameter mitgegeben wurde,dann ist der this-Kontext dieser FUnktion das event!
++ nutze den Fisher-Yates Algorithmus um die Ordung eines Arrays dem Zufall zu überlassen (https://medium.com/@khaledhassan45/how-to-shuffle-an-array-in-javascript-6ca30d53f772)
++
