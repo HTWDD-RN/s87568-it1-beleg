@@ -65,3 +65,12 @@
 > 11.5h bis hier
 + midi virtual keyboard eingebaut. https://stuartmemo.com/qwerty-hancock/
 + latex sollte selbst in die Aufgaben geschrieben werden!!!!
++ auf einmal treten sehr viele kleine Bugs auf, die es gilt zu fixen
+> 16h bis hier
+## Refactoring
++ Code nachdem ein Tag vergangen ist anschauen und  re-modellieren sodass es verständlicher wird
++ virt. keyboard erstmal herausgenommen, weil dafür noch mehr Verständnis her muss
++ der this kontext eines Events ist das Aufrufende element 
++ Schrecklicher Workaround, um Eventlistener von Button abzukapseln
+
+> 18h bis hier

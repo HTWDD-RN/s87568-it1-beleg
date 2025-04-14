@@ -5,8 +5,7 @@ class Model {
     
     constructor() { 
         this.categoryData = {};
-        // fetch json data into ram
-
+        // fetch json data into memory
         // fetch needs to finish, so store the Promise in this.ready to use it for callers to synchronize
         this.ready = fetch("./json/tasks-static.json")
             .then(response => response.json()) // Parse JSON

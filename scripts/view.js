@@ -18,40 +18,46 @@ class View {
 
     setCategoryList() {
         this.categoryUl.innerHTML = this.p.getCategoryListHTML();
-        const categorySpans = document.querySelectorAll(".category");
 
-        // bind the Event-Listeners
+        // bind the Event-Listeners for the created categories
+        const categorySpans = document.querySelectorAll(".category");        
         for (let category of categorySpans) {
             category.parentElement.addEventListener("click", this.p.setCategory.bind(this.p, category.textContent));
         }
     }
 
     renderCategoryTask(articleTaskHTML) {
-        document.getElementById("question")?.remove();
-        document.getElementById("answers")?.remove();
-        this.article.innerHTML = articleTaskHTML + this.article.innerHTML;
+        this.article.innerHTML = articleTaskHTML;
+    }
 
 
+    displayNextTaskButton() {
+        const last = document.querySelector("article > :last-child");
+        last.insertAdjacentHTML('afterend', `
+            <button id="next-task-btn">next</button>
+        `);
+    }
+
+
+
+    parseKatex() {
         // let katex parse latex code
         renderMathInElement(document.body, {
             // customised options
-            // • auto-render specific keys, e.g.:
             delimiters: [
                 {left: '$$', right: '$$', display: true},
                 {left: '$', right: '$', display: false},
             ],
-            // • rendering keys, e.g.:
             throwOnError : false
           });
 
-          
-        const answerButtons = document.querySelectorAll("#button-wrapper > button");
-        // bind button EventListeners
-        for (let answerButton of answerButtons) {
-            answerButton.addEventListener("click", this.p.checkAnswer.bind(this.p, answerButton));
-        }
     }
 
+    clearArticleContent() {
+        document.querySelectorAll("#question, #answers, #welcome-heading, #keyboard, #next-task-btn").forEach(element => {
+            element.remove();
+        });
+    }
 
 }
 

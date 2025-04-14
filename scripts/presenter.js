@@ -1,26 +1,16 @@
 
 // ############ Presenter ########################################################################
-import QHkeyboard from "./keyboardConfig.js";
 
 
-const synth = new Tone.Synth().toDestination();
+let boundClick = {}; // for stable reference to bound method to button event-listeners for simple removal
+
 
 class Presenter {
     constructor() {
-        this.anr = 0;
         this.activeCategory = null;
+        this.currCategoryTasks = [];
         this.activeTask = {};
-        this.keyboard = QHkeyboard;
-
-
-
-        this.keyboard.keyDown = function (note, frequency) {
-            synth.triggerAttack(note);
-        };
-        
-        this.keyboard.keyUp = function (note, frequency) {
-            synth.triggerRelease();
-        };
+        this.nextActiveTaskIndex = 0;
 
     }
 
@@ -28,10 +18,6 @@ class Presenter {
         this.m = m;
         this.v = v;
     }
-
-
-
-
 
     getCategoryListHTML() {
         const categories = this.m.getCategories();
@@ -43,92 +29,77 @@ class Presenter {
     }
 
     setCategory(category) {
-        document.getElementById("welcome-heading")?.remove();
 
+        // clear the article element for new based on chosen category
+        this.v.clearArticleContent();
 
-        // remove active categoryy class from all category-list Items
+        // reset active-category state for setting a new category
+        this.activeCategory = null;
+        this.currCategoryTasks = [];
+        this.activeTask = {};
+        this.activeTaskIndex = 0;
+
+        // remove active-category class from all category-list Items
         for (let categorySpan of document.querySelectorAll(".category")) {
             categorySpan.parentElement.classList.remove("active-category");
         }
-        // add active category class to new active category
+        // add active category class to new active category nav-list-Item
         document.getElementById(`category-${category}`).classList.add("active-category");
         this.activeCategory = category;
 
         
-    
-        let tasks = this.m.getTasksForCategory(category);
-        // TODO: choose random task not just first
-        this.shuffleArray(tasks);
-        this.activeTask = tasks[0];
+        // TODO: maybe get n amount of tasks, then use them
+        this.currCategoryTasks = this.m.getTasksForCategory(category);
+        // randomize task order
+        this.shuffleArray(this.currCategoryTasks);
+        console.log(this.currCategoryTasks);
 
-        // add inline latex to math questions and answers
-        // if (category === "mathe") {
-        //     this.activeTask.a = "$"+ this.activeTask.a + "$";
-        //     for (let i = 0; i < this.activeTask.l.length; i++) {
-        //         this.activeTask.l[i] = "$" + this.activeTask.l[i] + "$";
-        //     }
-        // }
-        // console.log(this.activeTask);
+        // take first task of this randomized task array as first to show
+        this.activeTask = this.currCategoryTasks[this.activeTaskIndex];
+        this.nextActiveTaskIndex = (this.nextActiveTaskIndex + 1) % this.currCategoryTasks.length;
 
+        this.renderTask();
         
-        // build question and answer block with first task
+     
+    }
+
+    renderTask() {
+        // build question and answer block with first task (same for all categories)
         let firstTaskHtml = `<div id="question"><span>${this.activeTask.a}</span></div>`;
 
+        // handle special categories 
+        switch (this.activeCategory) {
+            case ("noten"): 
+                // TODO: add method to handle virtual keyboard
+                // this.loadKeyboard();
+                break;
+            default:
+                // first build each button with corresponding solution value
+                firstTaskHtml += `<div id="answers"><div id="button-wrapper">`;
+                let buttonAnswerArr = [];
+                this.activeTask.l.forEach((answer, index) => {
+                    buttonAnswerArr.push(`<button data-correct=${ index === 0 ? "true" : "false"}>${answer}</button>`);
+                });
+                    
+                // use Fisher-Yates shuffle algorithm to randomize answers array so
+                // not the first answer is always correct
+                this.shuffleArray(buttonAnswerArr);
+                
 
-         // handle special case of adding virtual piano to notes category
-         const keyboardWrapper = document.getElementById("keyboard-wrapper");
-        //  console.log(keyboard);
-         keyboardWrapper.style.display = "none";
-         if (category === "noten") {
-             keyboardWrapper.style.display = "flex";
- 
-             this.keyboard.keyDown = function (note, frequency) {
-                 // keydown should now be treated as the answer-interface for the user
-                 synth.triggerAttack(note);
-                 const keyPressed = document.getElementById(note);
-                 const bgCol = keyPressed.dataset.noteType;
- 
-                 // console.log(note);
-                 // change backgroundColor depending on correctness for one second
-                 if (this.checkNoteEvent(note))
-                     keyPressed.style.backgroundColor = "green";
-                 else
-                     keyPressed.style.backgroundColor = "red";
- 
-                 // reset bg color
-                 setTimeout(() => {
-                     keyPressed.style.backgroundColor = bgCol; // or original color like 'white'
-                 }, 2000);
- 
-             }.bind(this);
+                for (let answerButton of buttonAnswerArr) {
+                    firstTaskHtml += `${answerButton}`
+                }
+                firstTaskHtml +=  `</div></div>`;    
+                
+                this.v.renderCategoryTask(firstTaskHtml);
+                this.v.parseKatex();
 
-             this.v.renderCategoryTask(firstTaskHtml);
-             return;
-         }
-
-
-        
-        
-
-        // first build each button with corresponding solution value
-        firstTaskHtml += `<div id="answers"><div id="button-wrapper">`;
-        let buttonAnswerArr = [];
-        this.activeTask .l.forEach((answer, index) => {
-
-            buttonAnswerArr.push(`<button data-correct=${ index === 0 ? "true" : "false"}>${answer}</button>`);
-        });
-            
-        // use Fisher-Yates shuffle algorithm to randomize answers array so
-        // not the first answer is always correct
-        this.shuffleArray(buttonAnswerArr);
-        
-
-        for (let answerButton of buttonAnswerArr) {
-            firstTaskHtml += `${answerButton}`
+                // bind button EventListeners
+                document.querySelectorAll("#button-wrapper > button").forEach(function (answerButton, buttonKey) {
+                    boundClick[buttonKey] = this.checkAnswer.bind(this, answerButton);
+                    answerButton.addEventListener("click", boundClick[buttonKey]);
+                }.bind(this));
         }
-        firstTaskHtml +=  `</div></div>`;    
-        
-        this.v.renderCategoryTask(firstTaskHtml);
     }
 
 
@@ -144,16 +115,34 @@ class Presenter {
 
 
     checkAnswer(answerButton) {
-        // extract the data-correct attribute for handling checkanswer(data-correct)
-        let dataCorrect = answerButton.dataset.correct;
-        // this.v.renderCategoryTask(dataCorrect === "true");
-        if (dataCorrect === "true")
+        // when the user presses a button for an answer,
+        // the button will change it's color to green if true else red.
+        // After this, this Eventlistener is unbound and the next Task button
+        // appears.
+
+        if (answerButton.dataset.correct === "true")
             answerButton.style.backgroundColor = "green";
         else 
             answerButton.style.backgroundColor = "red";
-    
 
-        console.log(dataCorrect === "true");
+        document.querySelectorAll("#button-wrapper > button").forEach((button, buttonKey) => {
+            // console.log(button);
+            button.removeEventListener("click", boundClick[buttonKey]);
+        });
+
+        
+        this.v.displayNextTaskButton();
+        // add the eventlistener for the nextTask button
+        document.getElementById("next-task-btn").addEventListener("click",this.loadNextTaskFromCategory.bind(this));
+
+        return answerButton.dataset.correct === "true";
+    }
+
+    loadNextTaskFromCategory() {
+
+        this.activeTask = this.currCategoryTasks[this.nextActiveTaskIndex];
+        this.renderTask();
+        this.nextActiveTaskIndex = (this.nextActiveTaskIndex + 1) % this.currCategoryTasks.length;
 
     }
 
