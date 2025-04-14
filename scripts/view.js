@@ -34,7 +34,7 @@ class View {
     displayNextTaskButton() {
         const last = document.querySelector("article > :last-child");
         last.insertAdjacentHTML('afterend', `
-            <button id="next-task-btn">next</button>
+            <button id="next-task-btn"><span>N</span>ext</button>
         `);
     }
 

@@ -102,8 +102,42 @@ aside {
 }
 
 
+#next-task-btn {
+    display: block;
+    background-color: var(--emerald-700);
+    border-radius: 100%;
+    /* padding: 5%; */
+    margin: 0 auto;
+    width: 3.5em;
+    height: 3.5em;
 
+    animation-name: wheel;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
 
+#next-task-btn:hover {
+    background-color: gray;
+}
+
+@keyframes wheel {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+ }
+
+ #next-task-btn > span   {
+    animation: colorChange 10s infinite alternate;
+}
+
+@keyframes colorChange {
+    from {color: darkblue;}
+    to {color: darkred;}
+ }
 
 
 /* Usefull classes */
