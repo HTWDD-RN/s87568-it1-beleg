@@ -4,36 +4,14 @@ import Model from "./model.js";
 import Presenter from "./presenter.js";
 import View from "./view.js";
 
-
-
-
-
-
-//let p, v, m;
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
     let m = new Model();
     let p = new Presenter();
     let v = new View(p);
-
 
     // model loads some data async, so wait for it to finish loading
     m.ready.then(() => {
         p.setModelAndView(m, v);
         v.renderWelcome();
-    })
-
-    // FIXME: Dont think this is needed
-    // renderMathInElement(document.body, {
-    //     // customised options
-    //     // • auto-render specific keys, e.g.:
-    //     delimiters: [
-    //         {left: '$$', right: '$$', display: true},
-    //         {left: '$', right: '$', display: false},
-    //     ],
-    //     // • rendering keys, e.g.:
-    //     throwOnError : false
-    //   });
-
+    });
 });
-
-
