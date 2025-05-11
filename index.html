@@ -6,6 +6,7 @@
         <title>Lernprogramm</title>
         <link href="css/style.css" rel="stylesheet" />
         <script type="module" src="./scripts/main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
 
         <!-- kaTeX -->
         <link
@@ -30,21 +31,18 @@
             onload="renderMathInElement(document.body);"
         ></script>
     </head>
+
     <body>
+        <!-- <div id="output" class="hidden"></div> -->
         <header>header</header>
         <main>
             <nav>
                 <h3 id="nav-title">Kategorie auswählen:</h3>
                 <ul id="category-ul" aria-label="Lern Kategorie auswählen"></ul>
             </nav>
+
             <article id="q-and-a">
-                <!-- I just have some elements for start that I see first, which need to be implemented still -->
-                <h2 id="question">TODO</h2>
-                <label for="file">progress Bar:</label>
-                <progress id="file" value="32" max="100">32%</progress>
-                <h2>Keyboard</h2>
-
-
+                <div id="output" class="hidden"></div>
             </article>
             <aside></aside>
         </main>

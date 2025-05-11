@@ -1,5 +1,3 @@
-
-
 :root {
     --emerald-950: #022c22;
     --emerald-800: #065f46;
@@ -19,10 +17,18 @@ body {
 
 }
 
-
+/* #output { */
+/*     background-color: white; */
+/* } */
 
 /* main containers and nigh-global rules */
-nav,  header, footer, article, aside, li, button {
+nav,
+header,
+footer,
+article,
+aside,
+li,
+button {
     background-color: var(--emerald-500);
     border-radius: 10px;
     border: 1px solid var(--gray);
@@ -31,14 +37,15 @@ nav,  header, footer, article, aside, li, button {
 
 }
 
-header, footer {
+header,
+footer {
     background-color: var(--emerald-800);
     min-height: 2em;
 }
 
 main {
     background-color: var(--emerald-700);
-    display:flex;
+    display: flex;
     padding: 0 1em;
     border-radius: 15px;
     margin: 0.5em;
@@ -48,6 +55,7 @@ nav {
     flex: 1 1 8em;
     max-width: 8em;
 }
+
 article {
     flex: 3 3 0%;
     min-width: 50%;
@@ -88,7 +96,7 @@ aside {
 
 #button-wrapper {
     display: flex;
-    flex-direction: column;   
+    flex-direction: column;
 }
 
 #keyboard-wrapper {
@@ -102,7 +110,8 @@ aside {
 }
 
 
-#next-task-btn {
+#next-task-btn,
+#submit-btn {
     display: block;
     background-color: var(--emerald-700);
     border-radius: 100%;
@@ -117,43 +126,59 @@ aside {
     animation-timing-function: linear;
 }
 
-#next-task-btn:hover {
+#next-task-btn:hover,
+#submit-btn:hover {
     background-color: gray;
 }
 
+#submit-btn {
+    width: 5em;
+}
+
+
 @keyframes wheel {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
-    100% {
-      transform: rotate(360deg);
-    }
- }
 
- #next-task-btn > span   {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#next-task-btn>span {
     animation: colorChange 10s infinite alternate;
 }
 
 @keyframes colorChange {
-    from {color: darkblue;}
-    to {color: darkred;}
- }
+    from {
+        color: darkblue;
+    }
+
+    to {
+        color: darkred;
+    }
+}
 
 
 /* Usefull classes */
 
-    /* fix font size and li size, FIXME: not pretty*/
-.clickable > span, button, li.clickable {
+/* fix font size and li size, FIXME: not pretty*/
+.clickable>span,
+button,
+li.clickable {
     font-size: 1.5vw;
 }
 
-.clickable, button {
+.clickable,
+button {
     cursor: pointer;
     background-color: var(--emerald-400);
     user-select: none;
 }
 
-.clickable:hover, button:hover {
+.clickable:hover,
+button:hover {
     cursor: pointer;
     background-color: gray;
     /* user-select: none; */
@@ -166,8 +191,12 @@ aside {
 
 .hidden {
     display: none;
+    /* visibility: hidden; */
 }
 
+.selected {
+    background-color: gray;
+}
 
 
 
@@ -176,22 +205,26 @@ aside {
     body {
         font-size: large;
     }
-    
+
     main {
         flex-direction: column;
     }
-    nav ul{
+
+    nav ul {
         display: flex;
         justify-content: space-evenly;
-        
+
     }
-    nav, aside {
+
+    nav,
+    aside {
         min-width: 6em;
         max-width: 100%;
     }
 
-    .clickable > span, button, li.clickable {
+    .clickable>span,
+    button,
+    li.clickable {
         font-size: medium;
     }
 }
-

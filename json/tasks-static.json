@@ -2,49 +2,93 @@
     "mathe": [
         { "a": "$x^2+x^2$", "l": ["$2x^2$", "$x^4$", "$x^8$", "$2x^4$"] },
         { "a": "$x^2\\cdot x^2$", "l": ["$x^4$", "$x^2$", "$2x^2$", "$4x$"] },
-        { "a": "$x^2+x^2$", "l": ["$2x^2$", "$x^4$", "$x^8$", "$LOLOL$"] },
-        { "a": "$x^2\\cdot x^2$", "l": ["$x^4$", "$x^2$", "$2x^2$", "$LOL$"] },
-        { "a": "$x^2+x^2$", "l": ["$2x^2$", "$x^4$", "$x^8$", "$2x^4$"] },
-        { "a": "$x^2\\cdot x^2$", "l": ["$x^4$", "$x^2$", "$2x^2$", "JAAA"] }
+        { "a": "$\\sum\\limits_{k=0}^{n}k$ = ?", "l": ["$\\frac{n+1}{2}$","$n!$", "$\\frac{n-1}{2}$", "$n^n$"] },
+        { "a": "$\\frac{\\sin(x)}{dx}$ = ?", "l": ["$\\cos(x)$", "$-\\cos(x)$", "$\\frac{1}{x}$", "$\\sin^2(x)$"] },
+        { "a": "$3x + 4x$", "l": ["$7x$", "$12x$", "$x^2$", "$3x^2$"] },
+        { "a": "$\\frac{8}{2}$", "l": ["$4$", "$6$", "$2$", "$8$"] },
+        { "a": "$5^0$", "l": ["$1$", "$0$", "$5$", "$\\infty$"] },
+        { "a": "$\\sqrt{49}$", "l": ["$7$", "$6$", "$14$", "$3$"] },
+        { "a": "$\\frac{1}{2} + \\frac{1}{4}$", "l": ["$\\frac{3}{4}$", "$\\frac{1}{6}$", "$\\frac{5}{8}$", "$\\frac{1}{8}$"] }
     ],
     "web": [
         {
             "a": "Welche Authentifizierung bietet HTTP",
-            "l": [
-                "Digest Access Authentication",
-                "OTP",
-                "OAuth",
-                "2-Faktor-Authentifizierung"
-            ]
+            "l": [ "Digest Access Authentication", "OTP", "OAuth", "2-Faktor-Authentifizierung" ]
         },
         {
             "a": "Welches Transportprotokoll eignet sich für zeitkritische Übertragungen",
             "l": ["UDP", "TCP", "HTTP", "Fast Retransmit"]
+        },
+        {
+            "a": "Was ist das Hauptziel von HTTPS im Vergleich zu HTTP?",
+            "l": ["Verschlüsselung der Datenübertragung", "Schnellere Ladezeiten", "Geringerer Datenverbrauch", "Kompatibilität mit alten Browsern"]
+        },
+        {
+            "a": "Welche Sprache wird verwendet, um das Aussehen von Webseiten zu gestalten?",
+            "l": ["CSS", "HTML", "JavaScript", "SQL"]
+        },
+        {
+            "a": "Was ist ein typisches Merkmal von REST-APIs?",
+            "l": ["Zustandslosigkeit", "Verbindungsorientierung", "Push-Nachrichten", "WebSocket-Kommunikation"]
+        },
+        {
+            "a": "Welche Technik ermöglicht asynchrone HTTP-Anfragen im Browser?",
+            "l": ["AJAX", "SOAP", "FTP", "JSONP"]
+        },
+        {
+            "a": "Was ist der Zweck eines Content Delivery Networks (CDN)?",
+            "l": ["Verteilung von Inhalten über mehrere geografische Standorte", "Erhöhte Sicherheit durch Firewall-Funktion", "Zentrale Benutzerverwaltung", "Optimierung der Serverauslastung"]
+        },
+        {
+            "a": "Welche HTTP-Methode wird verwendet, um Daten an den Server zu senden?",
+            "l": ["POST", "GET", "DELETE", "HEAD"]
+        },
+        {
+            "a": "Was ist ein typisches Anwendungsgebiet für WebSockets?",
+            "l": ["Echtzeit-Kommunikation", "Statische Webseiten", "Formularübermittlung", "Server-Side Rendering"]
+        },
+        {
+            "a": "Welche Sprache wird verwendet, um Webseitenstruktur zu definieren?",
+            "l": ["HTML", "CSS", "Python", "C++"]
+        },
+        {
+            "a": "Was beschreibt der Begriff 'Responsive Design'?",
+            "l": ["Anpassung von Webseiten an verschiedene Bildschirmgrößen", "Schnelle Antwortzeit von Servern", "Nutzerfreundliche Navigation", "Optimierte Datenbankabfragen"]
+        },
+        {
+            "a": "Wozu dient ein Reverse Proxy?",
+            "l": ["Lastverteilung und Schutz von Backend-Systemen", "Speicherung von Cookies", "Erstellung von SSL-Zertifikaten", "Direkter Zugriff auf die Datenbank"]
+        },
+        {
+            "a": "Was bedeutet CORS im Kontext von Webanwendungen?",
+            "l": ["Cross-Origin Resource Sharing", "Client-Optimierte Rendering Strategie", "Content Overload Reduction System", "Cookie Origin Reset Service"]
+        },
+        {
+            "a": "Welche Technik wird typischerweise verwendet, um Webseiten dynamisch im Client zu verändern?",
+            "l": ["JavaScript", "PHP", "MySQL", "XML"]
         }
     ],
     "allgemein": [
-        {
-            "a": "Karl der Große, Geburtsjahr",
-            "l": ["747", "828", "650", "1150"]
-        }
     ],
     "noten": [
-      {"a": "C4", "l": ["C", "D", "E", "H"]}, 
-      {"a": "D4", "l": ["D", "C", "G", "F"]},
-      {"a": "E4", "l": ["E", "D", "C", "F"]},
-      {"a": "F4", "l": ["F", "D", "E", "F"]},
-      {"a": "G4", "l": ["G", "A", "E", "C"]},
-      {"a": "A4", "l": ["A", "D", "E", "F"]},
-      {"a": "B4", "l": ["H", "A", "C", "E"]},
-      {"a": "C5", "l": ["C", "D", "E", "A"]},
-      {"a": "D5", "l": ["D", "C", "E", "H"]},
-      {"a": "E5", "l": ["E", "D", "G", "C"]},
-      {"a": "F5", "l": ["F", "D", "E", "G"]},
-      {"a": "G5", "l": ["G", "A", "E", "F"]},
-      {"a": "A5", "l": ["A", "H", "E", "F"]},
-      {"a": "B5", "l": ["H", "A", "C", "F"]},
-      {"a": "C6", "l": ["C", "D", "E", "F"]},
-      {"a": "D6", "l": ["D", "E", "C", "F"]},
-      {"a": "E6", "l": ["E", "D", "C", "H"]}
+        {"a": "C4", "l": ["C", "D", "E", "H"]}, 
+        {"a": "D4", "l": ["D", "C", "G", "F"]},
+        {"a": "E4", "l": ["E", "D", "C", "F"]},
+        {"a": "F4", "l": ["F", "D", "E", "F"]},
+        {"a": "G4", "l": ["G", "A", "E", "C"]},
+        {"a": "A4", "l": ["A", "D", "E", "F"]},
+        {"a": "B4", "l": ["H", "A", "C", "E"]},
+        {"a": "C5", "l": ["C", "D", "E", "A"]},
+        {"a": "D5", "l": ["D", "C", "E", "H"]},
+        {"a": "E5", "l": ["E", "D", "G", "C"]},
+        {"a": "F5", "l": ["F", "D", "E", "G"]},
+        {"a": "G5", "l": ["G", "A", "E", "F"]},
+        {"a": "A5", "l": ["A", "H", "E", "F"]},
+        {"a": "B5", "l": ["H", "A", "C", "F"]},
+        {"a": "C6", "l": ["C", "D", "E", "F"]},
+        {"a": "D6", "l": ["D", "E", "C", "F"]},
+        {"a": "E6", "l": ["E", "D", "C", "H"]},
+        {"a":"(C4 E4 G4)", "l": ["C", "H", "F", "D"]},
+        {"a":"(F4 A4 C5)", "l": ["F", "G", "F", "D"]}
     ]
 }

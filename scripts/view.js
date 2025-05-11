@@ -9,9 +9,7 @@ class View {
     renderWelcome() {
         "renders the landing page where the user first chooses which category to learn";
 
-        this.article.innerHTML =
-            `<h3 id="welcome-heading">Wähle eine Kategorie zum Lernen</h3>` +
-            this.article.innerHTML;
+        this.article.insertAdjacentHTML('beforeend', `<h3 id="welcome-heading">Wähle eine Kategorie zum Lernen</h3>`);
         this.setCategoryList();
     }
 
@@ -29,7 +27,7 @@ class View {
     }
 
     renderCategoryTask(articleTaskHTML) {
-        this.article.innerHTML = articleTaskHTML;
+        this.article.insertAdjacentHTML('beforeend', articleTaskHTML);
     }
 
     displayNextTaskButton() {
@@ -57,11 +55,12 @@ class View {
     clearArticleContent() {
         document
             .querySelectorAll(
-                "#question, #answers, #welcome-heading, #keyboard, #next-task-btn"
+                "#question, #answers, #welcome-heading, #keyboard, #next-task-btn, #submit-btn"
             )
             .forEach((element) => {
                 element.remove();
             });
+        document.getElementById("output").classList.add("hidden");
     }
 }
 
