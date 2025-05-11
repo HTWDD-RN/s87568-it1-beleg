@@ -1,4 +1,3 @@
-// ############# Model ###########################################################################
 class Model {
     constructor() {
         this.categoryData = {};
@@ -10,8 +9,13 @@ class Model {
             .catch((error) => console.error("Error fetching JSON:", error));
     }
 
+
+
+
+    /**
+     * Return array with all category names
+     */
     getCategories() {
-        "return array with all category names";
         return Object.keys(this.categoryData);
     }
 

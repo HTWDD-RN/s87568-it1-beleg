@@ -74,3 +74,7 @@
 + Schrecklicher Workaround, um Eventlistener von Button abzukapseln
 
 > 18h bis hier
+
+
+## Überarbeitung
++ gerade prüft die Presenter Schicht, ob die Frage richtig beantwortet wurde. Das sollte aber nur Aufgabe der Model Schicht sein
