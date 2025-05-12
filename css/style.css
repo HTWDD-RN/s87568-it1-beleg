@@ -63,6 +63,10 @@ article {
 
 aside {
     flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -136,6 +140,24 @@ aside {
 }
 
 
+
+#progress-container {
+    background-color: red;
+    width: 70%;
+    height: 5%;
+}
+
+#green {
+    background-color: green;
+    height: 100%;
+}
+
+#yellow {
+    background-color: yellow;
+    height: 100%;
+}
+
+
 @keyframes wheel {
     0% {
         transform: rotate(0deg);
@@ -196,6 +218,7 @@ button:hover {
 
 .selected {
     background-color: gray;
+    border: solid black 1px;
 }
 
 

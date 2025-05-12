@@ -9,20 +9,20 @@ class Presenter {
     constructor() {
         this.activeCategory = null;
         this.currCategoryTasks = [];
+        this.categoryProgress = 0;
         this.activeTask = {};
         this.nextActiveTaskIndex = 0;
         this.answers = new Set();
+        this.finished = 0;
+        this.finishedHalf = 0;
+        this.total = 0;
 
-        // this.vf = new Factory({
-        //     renderer: { elementId: 'output', width: 500, height: 200 },
-        // });
-        // this.score = this.vf.EasyScore();
-        // this.system = this.vf.System();
     }
 
     setModelAndView(m, v) {
         this.m = m;
         this.v = v;
+
     }
 
     getCategoryListHTML() {
@@ -44,6 +44,13 @@ class Presenter {
         this.currCategoryTasks = [];
         this.activeTask = {};
         this.activeTaskIndex = 0;
+        this.categoryProgress = 0;
+        this.finished = 0;
+        this.finishedHalf = 0;
+        this.total = 0;
+
+
+        this.updateProgressBar();
 
         // remove active-category class from all category-list Items
         for (let categorySpan of document.querySelectorAll(".category")) {
@@ -61,6 +68,15 @@ class Presenter {
         // randomize task order
         this.shuffleArray(this.currCategoryTasks);
         // TEST: console.log(this.currCategoryTasks);
+
+        this.currCategoryTasks.forEach(task => {
+            task.progress = 0;
+        });
+
+
+        // save total amount of tasks for progress tracking 
+        this.total = this.currCategoryTasks.length;
+
 
         // take first task of this randomized task array as first to show
         this.activeTask = this.currCategoryTasks[this.activeTaskIndex];
@@ -126,7 +142,7 @@ class Presenter {
     renderAllgemeinTask() {
 
         // data structure a little different here
-        let firstTaskHtml = `<div id="question" data-id="${this.activeTask.id}"><span>${this.activeTask.text}</span></div>`;
+        let firstTaskHtml = `<div id="question"><span>${this.activeTask.text}</span></div>`;
 
         // first build each button with corresponding id 
         firstTaskHtml += `<div id="answers"><div id="button-wrapper">`;
@@ -171,13 +187,36 @@ class Presenter {
     async submitAnswers() {
         // TEST: console.log(this.answers, this.activeTask.id, Array.from(this.answers));
 
+        let currTaskIndex = this.nextActiveTaskIndex === 0 ? this.currCategoryTasks.length - 1 : this.nextActiveTaskIndex - 1;
+
         let ret = await this.m.checkAnswerAllgemein(this.activeTask.id, Array.from(this.answers));
         // console.log(ret);
-
-        let bgcol = "green";
-        if (!ret) {
-            bgcol = "red";
+        //
+        let bgcol;
+        if (ret) {
+            bgcol = "green";
+            this.currCategoryTasks[currTaskIndex].progress += 1;
         }
+        else {
+            bgcol = "red";
+            if (this.currCategoryTasks[currTaskIndex].progress == 1)
+                this.finishedHalf -= 1;
+            this.currCategoryTasks[currTaskIndex].progress = 0
+        }
+
+
+        if (this.currCategoryTasks[currTaskIndex].progress == 2) {
+            this.currCategoryTasks.splice(currTaskIndex, 1);
+            this.finished += 1;
+        } else if (this.currCategoryTasks[currTaskIndex].progress == 1) {
+            this.finishedHalf += 1;
+        }
+
+        this.updateProgressBar();
+
+
+
+
 
         Array.from(this.answers).forEach((answer) => {
             // console.log(answer)
@@ -199,6 +238,7 @@ class Presenter {
                 "click",
                 this.loadNextTaskFromCategory.bind(this)
             );
+
 
 
     }
@@ -276,11 +316,32 @@ class Presenter {
         // the button will change it's color to green if true else red.
         // After this, this Eventlistener is unbound and the next Task button
         // appears.
+        //
+        let currTaskIndex = this.nextActiveTaskIndex === 0 ? this.currCategoryTasks.length - 1 : this.nextActiveTaskIndex - 1;
+
+        console.log("index ", currTaskIndex);
 
 
-        if (answerButton.dataset.correct === "true")
+        if (answerButton.dataset.correct === "true") {
             answerButton.style.backgroundColor = "green";
-        else answerButton.style.backgroundColor = "red";
+            this.currCategoryTasks[currTaskIndex].progress += 1;
+        }
+        else {
+            answerButton.style.backgroundColor = "red";
+            if (this.currCategoryTasks[currTaskIndex].progress == 1)
+                this.finishedHalf -= 1;
+            this.currCategoryTasks[currTaskIndex].progress = 0
+        }
+
+
+        if (this.currCategoryTasks[currTaskIndex].progress == 2) {
+            this.currCategoryTasks.splice(currTaskIndex, 1);
+            this.finished += 1;
+        } else if (this.currCategoryTasks[currTaskIndex].progress == 1) {
+            this.finishedHalf += 1;
+        }
+
+        this.updateProgressBar();
 
         document
             .querySelectorAll("#button-wrapper > button")
@@ -301,12 +362,31 @@ class Presenter {
         return answerButton.dataset.correct === "true";
     }
 
+    updateProgressBar() {
+        console.log(this.finished, this.currCategoryTasks);
+        const pbarYellow = document.getElementById("yellow");
+        const pbarGreen = document.getElementById("green");
+
+        let yellow = (this.finishedHalf * 100) / this.total;
+        console.log(yellow);
+
+        let green = (100 * this.finished) / this.total;
+        console.log(green);
+
+
+        pbarYellow.style.width = `${yellow}%`;
+        pbarGreen.style.width = `${green}%`;
+    }
+
     loadNextTaskFromCategory() {
         this.v.clearArticleContent();
-        this.activeTask = this.currCategoryTasks[this.nextActiveTaskIndex];
+        this.activeTask = this.currCategoryTasks[this.nextActiveTaskIndex % this.currCategoryTasks.length];
         this.renderActiveTask();
         this.nextActiveTaskIndex =
             (this.nextActiveTaskIndex + 1) % this.currCategoryTasks.length;
+        if (this.currCategoryTasks.length === 0) {
+            this.v.renderWelcome();
+        }
     }
 
     shuffleArray(array) {
