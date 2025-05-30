@@ -1,9 +1,9 @@
 {
   "name": "Lernprogramm",
   "short_name": "Lern",
-  "start_url": "/",
+  "start_url": "/~s87568/Lernprogramm",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#317EFB"
+  "theme_color": "#00ff00"
 }
 

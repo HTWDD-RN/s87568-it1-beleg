@@ -1,5 +1,12 @@
+// service-worker.js
+
 self.addEventListener('install', (event) => {
-  console.log('Service Worker installing.');
+  console.log('[SW] Installed');
+  self.skipWaiting(); // Optional: activate immediately
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('[SW] Activated');
 });
 
 self.addEventListener('fetch', (event) => {
