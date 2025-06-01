@@ -14,7 +14,7 @@ class api {
         this.serverAddr = "https://idefix.informatik.htw-dresden.de:8888/api";
         this.user = "joshua.heninger@stud.htw-dresden.de";
         this.passwd = "tafelwerk";
-        this.page = 0;
+        this.page = Math.floor(Math.random() * 100); // Randomize the starting page
 
         // Encode credentials to Base64 for Basic Auth
         this.credentials = btoa(`${this.user}:${this.passwd}`);
@@ -35,7 +35,13 @@ class api {
             }
         })
         let data = await response.json();
-        this.page++ % data.totalPages;
+        // this.page++ % data.totalPages;
+        let prevPage = this.page;
+        // Randomize the page to get a different set of quizzes each time
+        while (this.page === prevPage) {
+            // Ensure we don't get the same page again
+            this.page = Math.floor(Math.random() * data.totalPages);
+        }
 
 
         return data.content;

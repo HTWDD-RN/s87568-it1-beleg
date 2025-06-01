@@ -80,3 +80,10 @@
 + gerade prüft die Presenter Schicht, ob die Frage richtig beantwortet wurde. Das sollte aber nur Aufgabe der Model Schicht sein
 + Rest API darangebaut, gelernt mit fetch umzugehen in js. Dabei auch gelernt, wie Basic Authenifizierung im Header mitgegeben werden kann
 > 25h bis hier
+
+
+## PWA
++ gelernt was alles für eine PWA notwendig ist
++ manifest.json hinzugefügt
++ gelernt den LiveDevelopment Server im lokalen Netz zu hosten, um die PWA gleich auf anderen Geräten zu testen
++ service worker hinzugefügt, um offline Funktionalität zu ermöglichen

@@ -16,8 +16,8 @@ USERPASS=joshua.heninger@stud.htw-dresden.de:$PASSWORD
 
 # [[ GET ALL TASKS ]]
 # get all quizzes on page=0
-# curl -i --user joshua.heninger@stud.htw-dresden.de:$PASSWORD  -X GET \
-#     https://idefix.informatik.htw-dresden.de:8888/api/quizzes?page=$1
+curl -i --user joshua.heninger@stud.htw-dresden.de:$PASSWORD  -X GET \
+    https://idefix.informatik.htw-dresden.de:8888/api/quizzes?page=$0
 
 
 # [[ POST new tasks ]]
@@ -38,9 +38,9 @@ USERPASS=joshua.heninger@stud.htw-dresden.de:$PASSWORD
 
 # [[ GET TASKS ]]
 # get task with id 2
-curl -i --user joshua.heninger@stud.htw-dresden.de:tafelwerk  -X GET \
-     https://idefix.informatik.htw-dresden.de:8888/api/quizzes/$1
-
+# curl -i --user joshua.heninger@stud.htw-dresden.de:tafelwerk  -X GET \
+#      https://idefix.informatik.htw-dresden.de:8888/api/quizzes/$1
+#
 
 
 
