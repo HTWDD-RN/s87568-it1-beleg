@@ -21,7 +21,7 @@
         integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
 
-    <link rel="manifest" href="./manifest.json"/>
+    <link rel="manifest" href="./manifest.json" />
 </head>
 
 <body>
@@ -35,6 +35,10 @@
 
         <article id="q-and-a">
             <div id="output" class="hidden"></div>
+
+            <div id="keyboard-wrapper">
+                <div id="keyboard"></div>
+            </div>
         </article>
         <aside>
             <h3>Progress</h3>
@@ -46,10 +50,6 @@
         </aside>
     </main>
 
-    <div id="keyboard-wrapper">
-        <div id="keyboard"></div>
-    </div>
-
     <footer>footer</footer>
 
     <!-- scripts / modules to realize virtual keyboard with sound -->
@@ -57,6 +57,10 @@
     <!-- <script src="https://unpkg.com/qwerty-hancock"></script> -->
     <!-- this is the main config for the keyboard -->
     <!-- <script type="module" src="./scripts/keyboardConfig.js"></script> -->
+
 </body>
+
+<script src="./scripts/qwerty-keyboard.js"></script>
+
 
 </html>

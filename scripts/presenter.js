@@ -2,7 +2,31 @@
 
 let boundClick = {}; // for stable reference to bound method to button event-listeners for simple removal
 
+// for rendering music notes
 const { Factory, EasyScore, System } = Vex.Flow;
+
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+var context = new AudioContext()
+var settings = {
+    id: 'keyboard',
+    width: 600,
+    height: 150,
+    startNote: 'C4',
+    whiteNotesColour: '#fff',
+    blackNotesColour: '#000',
+    borderColour: '#000',
+    activeColour: 'yellow',
+    octaves: 1
+}
+var keyboard = new QwertyHancock(settings);
+
+var masterGain = context.createGain();
+var nodes = [];
+
+masterGain.gain.value = 0.3;
+masterGain.connect(context.destination);
+
+
 
 
 class Presenter {
@@ -262,6 +286,7 @@ class Presenter {
 
     renderMusicTask() {
 
+        document.getElementById("keyboard-wrapper").style.display = "block";
         // div id output for rendering question
         const out = document.getElementById("output");
         out.classList.remove("hidden");
@@ -311,15 +336,22 @@ class Presenter {
     //     return note === this.activeTask.l[0];
     // }
 
-    checkAnswer(answerButton) {
+    checkAnswer(answerButton, event = null, note = null) {
         // when the user presses a button for an answer,
         // the button will change it's color to green if true else red.
         // After this, this Eventlistener is unbound and the next Task button
         // appears.
         //
+        //
+        console.log(note[0]);
+        console.log(this.activeTask.l[0]);
         let currTaskIndex = this.nextActiveTaskIndex === 0 ? this.currCategoryTasks.length - 1 : this.nextActiveTaskIndex - 1;
+        if (note !== null) {
+            console.log(note[0] == this.activeTask.l[0]);
+            return note[0] == this.activeTask.l[0];
+        }
 
-        console.log("index ", currTaskIndex);
+
 
 
         if (answerButton.dataset.correct === "true") {
@@ -359,6 +391,9 @@ class Presenter {
                 this.loadNextTaskFromCategory.bind(this)
             );
 
+
+
+
         return answerButton.dataset.correct === "true";
     }
 
@@ -397,4 +432,35 @@ class Presenter {
     }
 }
 
-export default new Presenter();
+
+
+const p = new Presenter();
+keyboard.keyDown = function(note, frequency) {
+    var oscillator = context.createOscillator();
+    oscillator.type = 'square';
+    oscillator.frequency.value = frequency;
+    oscillator.connect(masterGain);
+    oscillator.start(0);
+
+    p.checkAnswer(null, null, note);
+
+    nodes.push(oscillator);
+};
+
+keyboard.keyUp = function(note, frequency) {
+
+    var new_nodes = [];
+
+    for (var i = 0; i < nodes.length; i++) {
+        if (Math.round(nodes[i].frequency.value) === Math.round(frequency)) {
+            nodes[i].stop(0);
+            nodes[i].disconnect();
+        } else {
+            new_nodes.push(nodes[i]);
+        }
+    }
+
+    nodes = new_nodes;
+};
+
+export default p;

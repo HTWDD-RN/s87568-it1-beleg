@@ -53,9 +53,10 @@ class View {
     }
 
     clearArticleContent() {
+        document.getElementById("keyboard-wrapper").style.display = "none";
         document
             .querySelectorAll(
-                "#question, #answers, #welcome-heading, #keyboard, #next-task-btn, #submit-btn"
+                "#question, #answers, #welcome-heading, #next-task-btn, #submit-btn"
             )
             .forEach((element) => {
                 element.remove();
