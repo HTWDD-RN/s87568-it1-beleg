@@ -9,6 +9,11 @@
 + Progress tracking für die Aufgaben einer gewählten Kategorie
 + Offline PWA-Umsetzung (manifest und service worker)
 
+## Abgabe
++ liegt funktionsfähig auf dem HTW-Webserver
++ der Beleg befindet sich im Github-Repo (s87568) auf HTWDD-RN
++ Beleg wurde per Mail versandt
+
 ## Nichterfüllte Aufgaben
 + Statistik anzeigen
 
