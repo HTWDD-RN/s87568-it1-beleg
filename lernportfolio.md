@@ -87,3 +87,18 @@
 + manifest.json hinzugefügt
 + gelernt den LiveDevelopment Server im lokalen Netz zu hosten, um die PWA gleich auf anderen Geräten zu testen
 + service worker hinzugefügt, um offline Funktionalität zu ermöglichen
+> 30h bis hier
+
+
+## Progressbar hinzugefügt
++ Wie soll die Progressbar funktionieren?
++ Wie realisieren?
++ entschieden wie bei Theoretischer Fahrprüfung, bei zweimaliger richtigen Antwort wird die Frage aus der Liste entfernt
+> 35h bis hier
+
+## Keyboard hinzufügen
++ qwerty keyboard hinzugefügt
++ verstehen, wie das Skript benutzt werden kann
++ Keyboard nur für Kategorie Noten zeigen
++ Tastendrücke als Antworten annehmen
+> 38h bis hier

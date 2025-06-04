@@ -103,9 +103,16 @@ aside {
     flex-direction: column;
 }
 
+/* #keyboard { */
+/*     margin: auto; */
+/* } */
+
+
 #keyboard-wrapper {
     overflow: auto;
     display: none;
+    justify-content: center;
+    align-items: center;
 
 }
 
@@ -221,9 +228,7 @@ button:hover {
     border: solid black 1px;
 }
 
-
-
-@media screen and (max-width: 40em) {
+@media screen and (max-width: 50em) {
 
     body {
         font-size: large;

@@ -5,6 +5,8 @@ let boundClick = {}; // for stable reference to bound method to button event-lis
 // for rendering music notes
 const { Factory, EasyScore, System } = Vex.Flow;
 
+var blockCheckKeyboard = false;
+
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext()
 var settings = {
@@ -19,6 +21,8 @@ var settings = {
     octaves: 1
 }
 var keyboard = new QwertyHancock(settings);
+
+
 
 var masterGain = context.createGain();
 var nodes = [];
@@ -286,8 +290,10 @@ class Presenter {
 
     renderMusicTask() {
 
+
+        document.getElementById("keyboard").style.margin = "auto";
         document.getElementById("keyboard-wrapper").style.display = "block";
-        // div id output for rendering question
+        // div id output for rendering Music Notes
         const out = document.getElementById("output");
         out.classList.remove("hidden");
         out.innerHTML = "";
@@ -342,27 +348,45 @@ class Presenter {
         // After this, this Eventlistener is unbound and the next Task button
         // appears.
         //
-        //
-        console.log(note[0]);
-        console.log(this.activeTask.l[0]);
+
+
+
+        let correct;
         let currTaskIndex = this.nextActiveTaskIndex === 0 ? this.currCategoryTasks.length - 1 : this.nextActiveTaskIndex - 1;
         if (note !== null) {
-            console.log(note[0] == this.activeTask.l[0]);
-            return note[0] == this.activeTask.l[0];
-        }
+            let key;
+            if (note[0] == "B") key = "H";
+            else key = note[0];
+            console.log(key == this.activeTask.l[0]);
 
+            blockCheckKeyboard = true;
 
+            correct = key == this.activeTask.l[0];
+            if (correct) {
+                document.getElementById("keyboard-wrapper").style.border = "8px solid green";
+                this.currCategoryTasks[currTaskIndex].progress += 1;
+            }
+            else {
+                document.getElementById("keyboard-wrapper").style.border = "8px solid red";
+                if (this.currCategoryTasks[currTaskIndex].progress == 1)
+                    this.finishedHalf -= 1;
+                this.currCategoryTasks[currTaskIndex].progress = 0
+            }
 
+        } else {
 
-        if (answerButton.dataset.correct === "true") {
-            answerButton.style.backgroundColor = "green";
-            this.currCategoryTasks[currTaskIndex].progress += 1;
-        }
-        else {
-            answerButton.style.backgroundColor = "red";
-            if (this.currCategoryTasks[currTaskIndex].progress == 1)
-                this.finishedHalf -= 1;
-            this.currCategoryTasks[currTaskIndex].progress = 0
+            correct = answerButton.dataset.correct === "true";
+            if (correct) {
+                answerButton.style.backgroundColor = "green";
+                this.currCategoryTasks[currTaskIndex].progress += 1;
+            }
+            else {
+                answerButton.style.backgroundColor = "red";
+                if (this.currCategoryTasks[currTaskIndex].progress == 1)
+                    this.finishedHalf -= 1;
+                this.currCategoryTasks[currTaskIndex].progress = 0
+            }
+
         }
 
 
@@ -378,7 +402,6 @@ class Presenter {
         document
             .querySelectorAll("#button-wrapper > button")
             .forEach((button, buttonKey) => {
-                // console.log(button);
                 button.removeEventListener("click", boundClick[buttonKey]);
             });
 
@@ -391,10 +414,7 @@ class Presenter {
                 this.loadNextTaskFromCategory.bind(this)
             );
 
-
-
-
-        return answerButton.dataset.correct === "true";
+        return correct;
     }
 
     updateProgressBar() {
@@ -414,6 +434,10 @@ class Presenter {
     }
 
     loadNextTaskFromCategory() {
+        blockCheckKeyboard = false;
+        document.getElementById("keyboard-wrapper").style.border = "none";
+
+
         this.v.clearArticleContent();
         this.activeTask = this.currCategoryTasks[this.nextActiveTaskIndex % this.currCategoryTasks.length];
         this.renderActiveTask();
@@ -442,7 +466,9 @@ keyboard.keyDown = function(note, frequency) {
     oscillator.connect(masterGain);
     oscillator.start(0);
 
-    p.checkAnswer(null, null, note);
+    if (!blockCheckKeyboard)
+        p.checkAnswer(null, null, note);
+
 
     nodes.push(oscillator);
 };

@@ -54,6 +54,7 @@ class View {
 
     clearArticleContent() {
         document.getElementById("keyboard-wrapper").style.display = "none";
+        document.getElementById("keyboard-wrapper").style.border = "none";
         document
             .querySelectorAll(
                 "#question, #answers, #welcome-heading, #next-task-btn, #submit-btn"
