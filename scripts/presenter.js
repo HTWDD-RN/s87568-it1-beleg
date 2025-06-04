@@ -1,12 +1,19 @@
-// ############ Presenter ########################################################################
-
-let boundClick = {}; // for stable reference to bound method to button event-listeners for simple removal
+/**
+ * File presenter.js
+ * Description: This module handles the App's state and logic
+ * Author: Joshua Heninger
+ */
+"use strict";
 
 // for rendering music notes
 const { Factory, EasyScore, System } = Vex.Flow;
+// for stable reference to bound method to button event-listeners for simple removal
+let boundClick = {}; 
+// watcher variable to prevent user clicks on pressing piano keys from being evaluated as answers after the first answer
+var blockCheckKeyboard = false; 
 
-var blockCheckKeyboard = false;
-
+// for the piano keyboard rendering and sound
+// copied from the QwertyHancock source code: https://stuartmemo.com/qwerty-hancock/
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext()
 var settings = {
@@ -22,17 +29,16 @@ var settings = {
 }
 var keyboard = new QwertyHancock(settings);
 
-
-
 var masterGain = context.createGain();
 var nodes = [];
-
 masterGain.gain.value = 0.3;
 masterGain.connect(context.destination);
 
 
 
-
+/**
+* This class handles the App's state and logic. It handles communication between model and view. It knows all about the current active category, the user progress for one category and Events from user input.
+*/
 class Presenter {
     constructor() {
         this.activeCategory = null;
@@ -44,7 +50,6 @@ class Presenter {
         this.finished = 0;
         this.finishedHalf = 0;
         this.total = 0;
-
     }
 
     setModelAndView(m, v) {
@@ -52,7 +57,10 @@ class Presenter {
         this.v = v;
 
     }
-
+    /** 
+    * Returns the HTML for the category list.
+    * @return {String} HTML category list String
+    */    
     getCategoryListHTML() {
         const categories = this.m.getCategories();
         let listHtml = ``;
@@ -61,9 +69,12 @@ class Presenter {
         }
         return listHtml;
     }
-
+    /** 
+    * The user selects a category from the category list.
+    * This method sets the active category and loads the tasks for this category. Thereby resetting progress.
+    * @param {String} category - The category to set as active.
+    */
     async setCategory(category) {
-
         // clear the article element for new tasks based on chosen category
         this.v.clearArticleContent();
 
@@ -72,15 +83,15 @@ class Presenter {
         this.currCategoryTasks = [];
         this.activeTask = {};
         this.activeTaskIndex = 0;
+
+        // reset progress tracking
         this.categoryProgress = 0;
         this.finished = 0;
         this.finishedHalf = 0;
         this.total = 0;
-
-
         this.updateProgressBar();
 
-        // remove active-category class from all category-list Items
+        // remove active-category class from all category-list Items (styling purposes)
         for (let categorySpan of document.querySelectorAll(".category")) {
             categorySpan.parentElement.classList.remove("active-category");
         }
@@ -90,33 +101,29 @@ class Presenter {
             .classList.add("active-category");
         this.activeCategory = category;
 
-        // TODO: maybe get n amount of tasks, then use them
-        // except "allgemein" category as that always gives only max. 10
         this.currCategoryTasks = await this.m.getTasksForCategory(category);
+
         // randomize task order
         this.shuffleArray(this.currCategoryTasks);
-        // TEST: console.log(this.currCategoryTasks);
 
         this.currCategoryTasks.forEach(task => {
             task.progress = 0;
         });
 
-
         // save total amount of tasks for progress tracking 
         this.total = this.currCategoryTasks.length;
 
-
         // take first task of this randomized task array as first to show
         this.activeTask = this.currCategoryTasks[this.activeTaskIndex];
-        this.nextActiveTaskIndex =
-            (this.nextActiveTaskIndex + 1) % this.currCategoryTasks.length;
+        this.nextActiveTaskIndex = (this.nextActiveTaskIndex + 1) % this.currCategoryTasks.length;
 
         this.renderActiveTask();
     }
 
-
+    /** 
+    * Renders the active task based on the current active category.
+    */    
     renderActiveTask() {
-
         // build question and answer block with first task
         let firstTaskHtml = `<div id="question"><span>${this.activeTask.a}</span></div>`;
 
@@ -139,19 +146,22 @@ class Presenter {
                     );
                 });
 
-                // use Fisher-Yates shuffle algorithm to randomize answers array so
-                // not the first answer is always correct
+                // randomize answers array so not the first answer is always correct
                 this.shuffleArray(buttonAnswerArr);
 
+                // add each button to the html string
                 for (let answerButton of buttonAnswerArr) {
                     firstTaskHtml += `${answerButton}`;
                 }
                 firstTaskHtml += `</div></div>`;
 
                 this.v.renderCategoryTask(firstTaskHtml);
+
+                // parse katex for rendering math formulas
                 this.v.parseKatex();
 
                 // bind button EventListeners
+                // this uses global variable boundClick to store the bound click methods for later removal
                 document.querySelectorAll("#button-wrapper > button").forEach(
                     function(answerButton, buttonKey) {
                         boundClick[buttonKey] = this.checkAnswer.bind(
@@ -167,9 +177,11 @@ class Presenter {
         }
     }
 
+    /** 
+    * Renders the task for the "allgemein" category.
+    */
     renderAllgemeinTask() {
-
-        // data structure a little different here
+        // data structure a little different here (not a and l but text and options)
         let firstTaskHtml = `<div id="question"><span>${this.activeTask.text}</span></div>`;
 
         // first build each button with corresponding id 
@@ -181,21 +193,20 @@ class Presenter {
             );
         });
 
-        // use Fisher-Yates shuffle algorithm to randomize answers array so
-        // not the first answer is always correct
+        // randomize answers array so not the first answer is always correct
         this.shuffleArray(buttonAnswerArr);
 
         for (let answerButton of buttonAnswerArr) {
             firstTaskHtml += `${answerButton}`;
         }
         firstTaskHtml += `</div></div>`;
-
-        firstTaskHtml += `<button id="submit-btn" >Submit</button>`
-
+        firstTaskHtml += `<button id="submit-btn">Submit</button>`
         this.v.renderCategoryTask(firstTaskHtml);
+
+        // parse katex for rendering LaTeX formulas
         this.v.parseKatex();
 
-        // bind button EventListeners
+        // bind button EventListeners use global variable boundClick to store the bound click methods for later removal
         document.getElementById("submit-btn").addEventListener("click", this.submitAnswers.bind(this));
         document.querySelectorAll("#button-wrapper > button").forEach(
             function(answerButton, buttonKey) {
@@ -211,15 +222,16 @@ class Presenter {
         );
     }
 
-
+    /** 
+    * Uses the Model to check the answers for the current task of the "allgemein" category.
+    */
     async submitAnswers() {
-        // TEST: console.log(this.answers, this.activeTask.id, Array.from(this.answers));
-
+        // NOTE: ugly workaround to get the current task index
         let currTaskIndex = this.nextActiveTaskIndex === 0 ? this.currCategoryTasks.length - 1 : this.nextActiveTaskIndex - 1;
 
+        // based on response from the server, change the background color of the buttons
+        // and handle the progress of the current task
         let ret = await this.m.checkAnswerAllgemein(this.activeTask.id, Array.from(this.answers));
-        // console.log(ret);
-        //
         let bgcol;
         if (ret) {
             bgcol = "green";
@@ -232,30 +244,20 @@ class Presenter {
             this.currCategoryTasks[currTaskIndex].progress = 0
         }
 
-
         if (this.currCategoryTasks[currTaskIndex].progress == 2) {
             this.currCategoryTasks.splice(currTaskIndex, 1);
             this.finished += 1;
         } else if (this.currCategoryTasks[currTaskIndex].progress == 1) {
             this.finishedHalf += 1;
         }
-
         this.updateProgressBar();
 
-
-
-
-
         Array.from(this.answers).forEach((answer) => {
-            // console.log(answer)
             let button = document.querySelector(`[data-id="${answer}"]`);
             button.classList.remove("selected");
             button.style.backgroundColor = bgcol;
         })
-
-
         this.answers.clear();
-
         document.getElementById("submit-btn").remove();
 
         this.v.displayNextTaskButton();
@@ -271,7 +273,10 @@ class Presenter {
 
     }
 
-
+    /** 
+    * This method gets called when the user selects and answer button for a task from the"allgemein" category.
+    * @param {HTMLElement} answerButton - The button that was clicked.
+    */
     selectAnswer(answerButton) {
         if (answerButton.classList.contains("selected")) {
             answerButton.classList.remove("selected");
@@ -280,17 +285,13 @@ class Presenter {
             answerButton.classList.add("selected");
             this.answers.add(answerButton.dataset.id);
         }
-
-        // console.log(answerButton.dataset.id);
-        // console.log(this.answers);
     }
 
 
-
-
+    /** 
+    * Handles renderung for a music task.
+    */
     renderMusicTask() {
-
-
         document.getElementById("keyboard").style.margin = "auto";
         document.getElementById("keyboard-wrapper").style.display = "block";
         // div id output for rendering Music Notes
@@ -304,55 +305,27 @@ class Presenter {
 
         const score = vf.EasyScore();
         const system = vf.System();
-
-
-
-
-
-        // // Create a stave of width 400 at position 10, 40.
-        // const stave = new Stave(10, 40, 400);
-        //
-        // // Add a clef and time signature.
-        // stave.addClef('treble').addTimeSignature('4/4');
-        //
-        // // Connect it to the rendering context and draw!
-        // stave.setContext(context).draw();
-        //
-        //
-        system
-            .addStave({
-                voices: [
-                    // score.voice(score.notes('C#5/q, B4, A4, G#4', { stem: 'up' })),
-                    // score.voice(score.notes('C#4/h, C#4', { stem: 'down' })),
-                    score.voice(score.notes(this.activeTask.a + "/w"))
-                ],
-            })
-            .addClef('treble')
-        // .addTimeSignature('1/2');
+        system.addStave({
+            voices: [score.voice(score.notes(this.activeTask.a + "/w"))],
+        }).addClef('treble')
 
         vf.draw();
     }
 
-
-
-    // checkNoteEvent(note) {
-    //     `this method gets called, when a piano key is pressed during a notes-category question;
-    //     this note is then compared to the solution in the task obj. `;
-    //     console.log(note === this.activeTask.l[0]);
-    //     return note === this.activeTask.l[0];
-    // }
-
+    /** 
+    * Method to check whether the user answered correctly by clicking the correct button. For all Categories except "allgemein"
+    * @summary Gets called when user presses an answer button or the keyboard. The button will change it's color to green if true else red. After this, this Eventlistener is unbound and the next Task button appears. With the keyboard, its border-color is changed based on correctness
+    * @param {HTMLElement} answerButton - button that was clicked, ignored when keyboard is used
+    * @param {Event} event - always ignored
+    * @param {String} note - the note that was pressed on the keyboard, ignored, when the keyboard is not used
+    * @return {Boolean} Whether the answer was correct: true else false
+    */
     checkAnswer(answerButton, event = null, note = null) {
-        // when the user presses a button for an answer,
-        // the button will change it's color to green if true else red.
-        // After this, this Eventlistener is unbound and the next Task button
-        // appears.
-        //
-
-
-
         let correct;
+        // NOTE: ugly workaround for getting the current Tasks index
         let currTaskIndex = this.nextActiveTaskIndex === 0 ? this.currCategoryTasks.length - 1 : this.nextActiveTaskIndex - 1;
+
+        // because the Keyboard press gets processed here as well, separate here
         if (note !== null) {
             let key;
             if (note[0] == "B") key = "H";
@@ -374,7 +347,6 @@ class Presenter {
             }
 
         } else {
-
             correct = answerButton.dataset.correct === "true";
             if (correct) {
                 answerButton.style.backgroundColor = "green";
@@ -386,9 +358,7 @@ class Presenter {
                     this.finishedHalf -= 1;
                 this.currCategoryTasks[currTaskIndex].progress = 0
             }
-
         }
-
 
         if (this.currCategoryTasks[currTaskIndex].progress == 2) {
             this.currCategoryTasks.splice(currTaskIndex, 1);
@@ -417,26 +387,32 @@ class Presenter {
         return correct;
     }
 
+    /** 
+    * Renders the progress bar based on the active category progress.
+    */
     updateProgressBar() {
         console.log(this.finished, this.currCategoryTasks);
         const pbarYellow = document.getElementById("yellow");
         const pbarGreen = document.getElementById("green");
 
+        // yellow part grows for each correct task
         let yellow = (this.finishedHalf * 100) / this.total;
         console.log(yellow);
 
+        // green part grows for answering same task correctly twice in a row
         let green = (100 * this.finished) / this.total;
         console.log(green);
-
 
         pbarYellow.style.width = `${yellow}%`;
         pbarGreen.style.width = `${green}%`;
     }
 
+    /** 
+    * Reset applied styles and load next 
+    */
     loadNextTaskFromCategory() {
         blockCheckKeyboard = false;
         document.getElementById("keyboard-wrapper").style.border = "none";
-
 
         this.v.clearArticleContent();
         this.activeTask = this.currCategoryTasks[this.nextActiveTaskIndex % this.currCategoryTasks.length];
@@ -448,6 +424,9 @@ class Presenter {
         }
     }
 
+    /** 
+    * Fisher Yates Array Shuffling inplace.
+    */    
     shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -456,9 +435,9 @@ class Presenter {
     }
 }
 
-
-
+// creating Presenter here, to use it's checkAnswer Method on Keypresses
 const p = new Presenter();
+// Keyboard sound config copied from Qwerty-hancock-WebSite source code https://stuartmemo.com/qwerty-hancock/ 
 keyboard.keyDown = function(note, frequency) {
     var oscillator = context.createOscillator();
     oscillator.type = 'square';
@@ -469,14 +448,11 @@ keyboard.keyDown = function(note, frequency) {
     if (!blockCheckKeyboard)
         p.checkAnswer(null, null, note);
 
-
     nodes.push(oscillator);
 };
 
 keyboard.keyUp = function(note, frequency) {
-
     var new_nodes = [];
-
     for (var i = 0; i < nodes.length; i++) {
         if (Math.round(nodes[i].frequency.value) === Math.round(frequency)) {
             nodes[i].stop(0);

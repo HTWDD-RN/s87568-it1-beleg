@@ -1,27 +1,17 @@
 /**
- * Module Model.js
- *
- * This handles the tasks data for the presenter. What tasks and which categories exist.
- *
- * The available categories are:
- *  * mathe, noten, allgemein, web
- *
- * where allgemein is going to consist of questions being handled by the 
- * WebQuiz API at https://idefix.informatik.htw-dresden.de:8888/api. 
- * View the api module for further details.
- * All other categories are stored in json/tasks-statc.json.
+ * Filie model.js
+ * Description: This handles the tasks data for the presenter. What tasks and which categories exist. The available categories are: mathe, noten, allgemein, web
+ * Author: Joshua Heninger
  */
+"use strict";
 import api from "./api.js";
-
-
-
 
 class Model {
     /**
      * Creates new model object for handling tasks data.
      * Reads the main tasks JSON file into memory.
      * This constructor sets the ready property of the Model object,
-     * which contains the Promise, to handle the asyncronous loading
+     * which contains the Promise, to resolve the asyncronous loading
      * of the json file
      * 
      */
@@ -35,22 +25,23 @@ class Model {
             .catch((error) => console.error("Error fetching JSON:", error));
     }
 
-
     /**
-     * Return array with all category names
+     * Returns all available categories
+     * @returns {Array} array with all category names
      */
     getCategories() {
         return Object.keys(this.categoryData);
     }
 
     /**
-     * @returns array of tasks objects for selected category
+     * Returns all tasks for a given category.
+     * @returns {Array} array of tasks objects for selected category
     */
     async getTasksForCategory(category) {
         if (category === "allgemein") {
             let quizzes = await api.getQuizzes();
 
-            // always save the last batch of tasks to memory
+            // nicht weil noch keine Quizze davon gecached werdenalways save the last batch of tasks to memory
             // for offline convenience
             this.categoryData["allgemein"] = quizzes;
             return quizzes;
@@ -59,24 +50,18 @@ class Model {
         return this.categoryData[category];
     }
 
-
-
-
     /**
      * Given an answer to a task of category "allgemein"
-     * check if the answer is correct
+     * check if the answer is correct via api
      *
-     * @param taskId
-     * @param answers int[] Array of answers, can be empty or have distinct values from 0 to 4
-     * @returns bool 
-     *
+     * @param {Number} taskId ID of the task to solve
+     * @param {Array} answers Array of answers, can be empty or have distinct values from 0 to 4
+     * @returns {Boolean} true if the answer was correct, false otherwise
      */
     async checkAnswerAllgemein(taskId, answers) {
         let data = await api.solve(taskId, answers);
         return data.success;
     }
 }
-
-
 
 export default new Model();

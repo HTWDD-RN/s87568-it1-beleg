@@ -1,4 +1,12 @@
-// ##################### View #####################################################################
+/**
+ * Filie view.js
+ * Description: Main Rendering functions are implemented here. 
+ * Author: Joshua Heninger
+ */
+
+/**
+* Handles main dynamic HTML rendering
+*/
 class View {
     constructor(p) {
         this.p = p; // Presenter
@@ -6,13 +14,18 @@ class View {
         this.categoryUl = document.getElementById("category-ul");
     }
 
+    /** 
+    * Renders the landing page where the user first chooses which category to learn
+    */    
     renderWelcome() {
-        "renders the landing page where the user first chooses which category to learn";
 
         this.article.insertAdjacentHTML('beforeend', `<h3 id="welcome-heading">Wähle eine Kategorie zum Lernen</h3>`);
         this.setCategoryList();
     }
 
+    /** 
+    * Renders a List of Categories
+    */     
     setCategoryList() {
         this.categoryUl.innerHTML = this.p.getCategoryListHTML();
 
@@ -26,6 +39,9 @@ class View {
         }
     }
 
+    /** 
+    * Renders Task inside the article tag
+    */ 
     renderCategoryTask(articleTaskHTML) {
         this.article.insertAdjacentHTML('beforeend', articleTaskHTML);
     }
@@ -40,6 +56,9 @@ class View {
         );
     }
 
+    /** 
+    * Parses LaTeX Math
+    */ 
     parseKatex() {
         // let Katex parse latex code
         renderMathInElement(document.body, {
@@ -52,6 +71,9 @@ class View {
         });
     }
 
+    /** 
+    * Clears the article tags' content for new content
+    */ 
     clearArticleContent() {
         document.getElementById("keyboard-wrapper").style.display = "none";
         document.getElementById("keyboard-wrapper").style.border = "none";
